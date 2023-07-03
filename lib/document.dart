@@ -298,9 +298,6 @@ class Document {
       case 'ctrl+s':
         saveFile();
         break;
-      case 'ctrl+e':
-        centerElement(keepAnchor: false);
-        break;
       case 'ctrl+1':
         convertToHeading(24, keepAnchor: true);
         break;
@@ -312,6 +309,16 @@ class Document {
         break;
       case 'ctrl+b':
         setBold(keepAnchor: true);
+        break;
+      case 'ctrl+k':
+        setElementPosition(position: TextAlign.center, keepAnchor: false);
+        break;
+      case 'ctrl+l':
+        setElementPosition(position: TextAlign.end, keepAnchor: false);
+        break;
+
+      case 'ctrl+j':
+        setElementPosition(position: TextAlign.start, keepAnchor: false);
         break;
     }
   }
@@ -344,10 +351,10 @@ class Document {
     );
   }
 
-  void centerElement({required bool keepAnchor}) {
-    lines[cursor.line].align = lines[cursor.line].align == TextAlign.center
-        ? TextAlign.left
-        : TextAlign.center;
+  void setElementPosition(
+      {required TextAlign position, required bool keepAnchor}) {
+    lines[cursor.line].align =
+        lines[cursor.line].align == position ? TextAlign.left : position;
 
     _validateCursor(keepAnchor);
   }
