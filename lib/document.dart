@@ -300,7 +300,18 @@ class Document {
         break;
       case 'ctrl+e':
         centerElement(keepAnchor: false);
-
+        break;
+      case 'ctrl+1':
+        convertToHeading(24, keepAnchor: true);
+        break;
+      case 'ctrl+2':
+        convertToHeading(19, keepAnchor: true);
+        break;
+      case 'ctrl+3':
+        convertToHeading(16, keepAnchor: true);
+        break;
+      case 'ctrl+b':
+        setBold(keepAnchor: true);
         break;
     }
   }
@@ -346,5 +357,15 @@ class Document {
       cursor.line,
       TextLine(type: 1, align: TextAlign.start, hasColor: false),
     );
+  }
+
+  void convertToHeading(int i, {required bool keepAnchor}) {
+    lines[cursor.line].size = i;
+    _validateCursor(keepAnchor);
+  }
+
+  void setBold({required bool keepAnchor}) {
+    lines[cursor.line].isBold = !lines[cursor.line].isBold;
+    _validateCursor(keepAnchor);
   }
 }

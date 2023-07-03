@@ -174,26 +174,16 @@ class _InputListener extends State<InputListener> {
                 default:
                   {
                     int k = event.logicalKey.keyId;
-                    if ((k >= LogicalKeyboardKey.keyA.keyId &&
-                            k <= LogicalKeyboardKey.keyZ.keyId) ||
-                        (k + 32 >= LogicalKeyboardKey.keyA.keyId &&
-                            k + 32 <= LogicalKeyboardKey.keyZ.keyId)) {
-                      String ch = String.fromCharCode(
-                          97 + k - LogicalKeyboardKey.keyA.keyId);
-                      if (event.isControlPressed) {
-                        d.command('ctrl+$ch');
-                        break;
-                      }
-                      d.insertText(ch);
+
+                    String ch = String.fromCharCode(
+                        97 + k - LogicalKeyboardKey.keyA.keyId);
+                    if (event.isControlPressed) {
+                      d.command('ctrl+$ch');
                       break;
                     }
+                    d.insertText(ch);
+                    break;
                   }
-
-                  if (event.logicalKey.keyLabel.length == 1) {
-                    d.insertText(event.logicalKey.keyLabel);
-                  }
-                  print(event.logicalKey.keyLabel);
-                  break;
               }
               doc.touch();
             }

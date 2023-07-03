@@ -33,6 +33,7 @@ class ViewLine extends StatelessWidget {
       textLine != null ? textLine!.text : '',
       lineNumber,
       doc.doc,
+      textLine?.size ?? 14,
     );
 
     return Container(

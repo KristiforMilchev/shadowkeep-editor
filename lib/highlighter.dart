@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shadowkeep_editor/text_line.dart';
 import 'dart:collection';
 import 'dart:ui' as ui;
 
@@ -55,11 +56,20 @@ class Highlighter {
     //     keyword;
   }
 
-  List<InlineSpan> run(String text, int line, Document document) {
+  List<InlineSpan> run(
+      String text, int line, Document document, TextLine? textLine) {
+    double size = 14;
+    FontWeight weight = FontWeight.normal;
+    if (textLine != null) {
+      size = textLine.size.toDouble();
+      weight = textLine.isBold ? FontWeight.bold : FontWeight.normal;
+    }
+
     TextStyle defaultStyle = TextStyle(
       fontFamily: 'FiraCode',
-      fontSize: fontSize,
+      fontSize: size,
       color: foreground,
+      fontWeight: weight,
     );
 
     List<InlineSpan> res = <InlineSpan>[];
@@ -84,7 +94,6 @@ class Highlighter {
       String ch = text[i];
       TextStyle style = defaultStyle.copyWith();
       Cursor cur = document.cursor.normalized();
-
       // decorate
       for (var d in decors) {
         if (i >= d.start && i <= d.end) {
