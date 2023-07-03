@@ -1,0 +1,15 @@
+/home/kristifor/Projects/editor_new/editor_from_scratch/build/linux/x64/debug/bundle/editor_from_scratch
+/home/kristifor/Projects/editor_new/editor_from_scratch/build/linux/x64/debug/bundle/data/icudtl.dat
+/home/kristifor/Projects/editor_new/editor_from_scratch/build/linux/x64/debug/bundle/lib/libflutter_linux_gtk.so
+/home/kristifor/Projects/editor_new/editor_from_scratch/build/linux/x64/debug/bundle/data/flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf
+/home/kristifor/Projects/editor_new/editor_from_scratch/build/linux/x64/debug/bundle/data/flutter_assets/FontManifest.json
+/home/kristifor/Projects/editor_new/editor_from_scratch/build/linux/x64/debug/bundle/data/flutter_assets/AssetManifest.smcbin
+/home/kristifor/Projects/editor_new/editor_from_scratch/build/linux/x64/debug/bundle/data/flutter_assets/version.json
+/home/kristifor/Projects/editor_new/editor_from_scratch/build/linux/x64/debug/bundle/data/flutter_assets/kernel_blob.bin
+/home/kristifor/Projects/editor_new/editor_from_scratch/build/linux/x64/debug/bundle/data/flutter_assets/NOTICES.Z
+/home/kristifor/Projects/editor_new/editor_from_scratch/build/linux/x64/debug/bundle/data/flutter_assets/fonts/MaterialIcons-Regular.otf
+/home/kristifor/Projects/editor_new/editor_from_scratch/build/linux/x64/debug/bundle/data/flutter_assets/fonts/DejaVu%20Sans%20Mono%20for%20Powerline.ttf
+/home/kristifor/Projects/editor_new/editor_from_scratch/build/linux/x64/debug/bundle/data/flutter_assets/fonts/Source%20Code%20Pro%20for%20Powerline.otf
+/home/kristifor/Projects/editor_new/editor_from_scratch/build/linux/x64/debug/bundle/data/flutter_assets/fonts/FiraCode-Regular.ttf
+/home/kristifor/Projects/editor_new/editor_from_scratch/build/linux/x64/debug/bundle/data/flutter_assets/shaders/ink_sparkle.frag
+/home/kristifor/Projects/editor_new/editor_from_scratch/build/linux/x64/debug/bundle/data/flutter_assets/AssetManifest.json
