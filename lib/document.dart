@@ -298,6 +298,10 @@ class Document {
       case 'ctrl+s':
         saveFile();
         break;
+      case 'ctrl+e':
+        centerElement(keepAnchor: false);
+
+        break;
     }
   }
 
