@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:convert';
 
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:shadowkeep_editor/text_line.dart';
 
@@ -157,10 +158,7 @@ class Document {
     deleteSelectedText();
 
     if (lines.elementAtOrNull(cursor.line) == null) {
-      lines.insert(
-        cursor.line,
-        TextLine(type: 1, align: TextAlign.center, hasColor: false),
-      );
+      createLineAtCursor();
     }
 
     String l = lines[cursor.line].text;
@@ -229,6 +227,8 @@ class Document {
   List<String> selectedLines() {
     List<String> res = <String>[];
     Cursor cur = cursor.normalized();
+    if (lines.isEmpty) return [];
+
     if (cur.line == cur.anchorLine) {
       String sel = lines[cur.line].text.substring(cur.column, cur.anchorColumn);
       res.add(sel);
@@ -260,6 +260,8 @@ class Document {
       clearSelection();
       return;
     }
+
+    if (lines.elementAtOrNull(cur.line) == null) createLineAtCursor();
 
     String l = lines[cur.line].text;
     String left = l.substring(0, cur.column);
@@ -333,5 +335,12 @@ class Document {
         : TextAlign.center;
 
     _validateCursor(keepAnchor);
+  }
+
+  void createLineAtCursor() {
+    lines.insert(
+      cursor.line,
+      TextLine(type: 1, align: TextAlign.start, hasColor: false),
+    );
   }
 }
