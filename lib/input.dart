@@ -166,10 +166,18 @@ class _InputListener extends State<InputListener> {
                   }
                   break;
                 case 'Arrow Up':
-                  d.moveCursorUp(keepAnchor: event.isShiftPressed);
+                  if (event.isControlPressed) {
+                    d.skipParagraphUp(keepAnchor: event.isShiftPressed);
+                  } else {
+                    d.moveCursorUp(keepAnchor: event.isShiftPressed);
+                  }
                   break;
                 case 'Arrow Down':
-                  d.moveCursorDown(keepAnchor: event.isShiftPressed);
+                  if (event.isControlPressed) {
+                    d.skipParagraphDown(keepAnchor: event.isShiftPressed);
+                  } else {
+                    d.moveCursorDown(keepAnchor: event.isShiftPressed);
+                  }
                   break;
                 default:
                   {

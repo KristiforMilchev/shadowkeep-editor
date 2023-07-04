@@ -375,4 +375,28 @@ class Document {
     lines[cursor.line].isBold = !lines[cursor.line].isBold;
     _validateCursor(keepAnchor);
   }
+
+  void skipParagraphUp({required bool keepAnchor}) {
+    var currentList = lines.take(cursor.line).toList();
+    var emptyLine =
+        currentList.lastWhereOrNull((element) => element.text.isNotEmpty);
+    if (emptyLine != null) {
+      cursor.line = lines.indexOf(emptyLine);
+    }
+    _validateCursor(keepAnchor);
+  }
+
+  void skipParagraphDown({required bool keepAnchor}) {
+    int index = lines.indexWhere(
+        (element) =>
+            element.text.isNotEmpty &&
+            element.text != lines.elementAt(cursor.line).text,
+        cursor.line);
+    if (index != -1) {
+      cursor.line = index;
+    } else {
+      cursor.line = cursor.line + 1;
+    }
+    _validateCursor(keepAnchor);
+  }
 }
