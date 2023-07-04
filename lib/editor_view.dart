@@ -36,14 +36,42 @@ class ViewLine extends StatelessWidget {
       textLine,
     );
 
-    return Container(
-      padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-      child: RichText(
-        text: TextSpan(children: spans),
-        softWrap: true,
-        textAlign: textLine != null ? textLine!.align : TextAlign.left,
-      ),
-    );
+    if (textLine?.type == 1) {
+      return Container(
+        padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+        child: RichText(
+          text: TextSpan(children: spans),
+          softWrap: true,
+          textAlign: textLine != null ? textLine!.align : TextAlign.left,
+        ),
+      );
+    } else {
+      return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ...textLine!.listLines!.map((e) {
+              List<InlineSpan> spans = hl.run(
+                e.text,
+                lineNumber,
+                doc.doc,
+                e,
+              );
+
+              return Container(
+                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                child: RichText(
+                  text: TextSpan(children: spans),
+                  softWrap: true,
+                  textAlign: e.align,
+                ),
+              );
+            })
+          ],
+        ),
+      );
+    }
   }
 }
 

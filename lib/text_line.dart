@@ -8,6 +8,8 @@ class TextLine {
   Color? color;
   int size;
   bool isBold;
+  List<TextLine>? listLines;
+  int lineNumber;
 
   TextLine({
     this.text = '',
@@ -17,5 +19,7 @@ class TextLine {
     required this.hasColor,
     this.size = 14,
     this.isBold = false,
+    this.listLines,
+    this.lineNumber = 0,
   });
 }

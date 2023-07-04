@@ -149,14 +149,12 @@ class _InputListener extends State<InputListener> {
                     d.deleteText();
                   }
                   break;
-
                 case 'Arrow Left':
                   if (event.isControlPressed) {
                     d.moveCursorLeftMarkWord(keepAnchor: event.isShiftPressed);
                   } else {
                     d.moveCursorLeft(keepAnchor: event.isShiftPressed);
                   }
-
                   break;
                 case 'Arrow Right':
                   if (event.isControlPressed) {

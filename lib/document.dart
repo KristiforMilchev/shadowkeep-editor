@@ -108,6 +108,19 @@ class Document {
     _validateCursor(keepAnchor);
   }
 
+  void moveCursorRightList({int count = 1, bool keepAnchor = false}) {
+    cursor.column++;
+    if (cursor.column >
+        lines[cursor.line]
+            .listLines![lines[cursor.line].lineNumber]
+            .text
+            .length) {
+      moveCursorDown(keepAnchor: keepAnchor);
+      moveCursorToStartOfLine(keepAnchor: keepAnchor);
+    }
+    _validateCursor(keepAnchor);
+  }
+
   void moveCursorRight({int count = 1, bool keepAnchor = false}) {
     cursor.column = cursor.column + count;
     if (cursor.column > lines[cursor.line].text.length) {
@@ -151,6 +164,19 @@ class Document {
 
   void insertNewLine() {
     deleteSelectedText();
+
+    var currentLine = lines[cursor.line];
+    if (currentLine.type != 1) {
+      lines[cursor.line].listLines!.add(
+            TextLine(
+              type: 3,
+              align: TextAlign.left,
+              hasColor: false,
+            ),
+          );
+      return;
+    }
+
     insertText('\n');
   }
 
@@ -161,6 +187,16 @@ class Document {
       createLineAtCursor();
     }
 
+    if (lines[cursor.line].type == 1) {
+      insertStandard(text);
+    }
+
+    if (lines[cursor.line].type == 2) {
+      insertInList(text);
+    }
+  }
+
+  insertStandard(String text) {
     String l = lines[cursor.line].text;
     String left = l.substring(0, cursor.column);
     String right = l.substring(cursor.column);
@@ -185,6 +221,36 @@ class Document {
 
     lines[cursor.line].text = left + text + right;
     moveCursorRight(count: text.length);
+  }
+
+  insertInList(String text) {
+    // handle new line
+
+    String l =
+        lines[cursor.line].listLines![lines[cursor.line].lineNumber].text;
+    String left = l.substring(0, cursor.column);
+    String right = l.substring(cursor.column);
+
+    if (text == '\n') {
+      lines[cursor.line].listLines![lines[cursor.line].lineNumber].text = left;
+
+      lines[cursor.line].listLines!.insert(
+            lines[cursor.line].lineNumber + 1,
+            TextLine(
+              text: right,
+              type: 1,
+              align: TextAlign.left,
+              hasColor: false,
+            ),
+          );
+      moveCursorDown();
+      moveCursorToStartOfLine();
+      return;
+    }
+
+    lines[cursor.line].listLines![lines[cursor.line].lineNumber].text =
+        left + text + right;
+    moveCursorRightList(count: text.length);
   }
 
   void deleteText({int numberOfCharacters = 1}) {
@@ -320,6 +386,9 @@ class Document {
       case 'ctrl+j':
         setElementPosition(position: TextAlign.start, keepAnchor: false);
         break;
+      case 'ctrl+[':
+        createList();
+        break;
     }
   }
 
@@ -398,5 +467,14 @@ class Document {
       cursor.line = cursor.line + 1;
     }
     _validateCursor(keepAnchor);
+  }
+
+  void createList() {
+    lines.insert(
+      cursor.line,
+      TextLine(type: 2, align: TextAlign.start, hasColor: false, listLines: [
+        TextLine(type: 3, align: TextAlign.left, hasColor: false)
+      ]),
+    );
   }
 }
