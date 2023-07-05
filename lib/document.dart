@@ -52,6 +52,7 @@ class Document {
   List<TextLine> lines = <TextLine>[];
   Cursor cursor = Cursor();
   String clipboardText = '';
+  bool isList = false;
 
   Future<bool> openFile(String path) async {
     lines = <TextLine>[];
@@ -82,7 +83,8 @@ class Document {
       cursor.line = lines.length - 1;
     }
     if (cursor.line < 0) cursor.line = 0;
-    if (cursor.column > lines[cursor.line].text.length) {
+    if (cursor.column > lines[cursor.line].text.length &&
+        lines[cursor.line].type == 1) {
       cursor.column = lines[cursor.line].text.length;
     }
     if (cursor.column == -1) cursor.column = lines[cursor.line].text.length;
@@ -108,8 +110,23 @@ class Document {
     _validateCursor(keepAnchor);
   }
 
+  void moveCursorLeftList(int count, bool keepAnchor) {
+    cursor.column--;
+    if (cursor.column >
+        lines[cursor.line]
+            .listLines![lines[cursor.line].lineNumber]
+            .text
+            .length) {
+      moveCursorDown(keepAnchor: keepAnchor);
+      moveCursorToStartOfLine(keepAnchor: keepAnchor);
+    }
+    _validateCursor(keepAnchor);
+  }
+
   void moveCursorRightList({int count = 1, bool keepAnchor = false}) {
-    cursor.column++;
+    cursor.column = cursor.column + count;
+
+    print(cursor.column);
     if (cursor.column >
         lines[cursor.line]
             .listLines![lines[cursor.line].lineNumber]
@@ -165,18 +182,6 @@ class Document {
   void insertNewLine() {
     deleteSelectedText();
 
-    var currentLine = lines[cursor.line];
-    if (currentLine.type != 1) {
-      lines[cursor.line].listLines!.add(
-            TextLine(
-              type: 3,
-              align: TextAlign.left,
-              hasColor: false,
-            ),
-          );
-      return;
-    }
-
     insertText('\n');
   }
 
@@ -186,14 +191,7 @@ class Document {
     if (lines.elementAtOrNull(cursor.line) == null) {
       createLineAtCursor();
     }
-
-    if (lines[cursor.line].type == 1) {
-      insertStandard(text);
-    }
-
-    if (lines[cursor.line].type == 2) {
-      insertInList(text);
-    }
+    insertStandard(text);
   }
 
   insertStandard(String text) {
@@ -204,16 +202,16 @@ class Document {
     // handle new line
     if (text == '\n') {
       lines[cursor.line].text = left;
-
       lines.insert(
         cursor.line + 1,
         TextLine(
           text: right,
-          type: 1,
+          type: isList ? 2 : 1,
           align: TextAlign.left,
           hasColor: false,
         ),
       );
+
       moveCursorDown();
       moveCursorToStartOfLine();
       return;
@@ -254,32 +252,7 @@ class Document {
   }
 
   void deleteText({int numberOfCharacters = 1}) {
-    String l = lines[cursor.line].text;
-
-    // handle join lines
-    if (cursor.column >= l.length) {
-      Cursor cur = cursor.copy();
-      lines[cursor.line].text += lines[cursor.line + 1].text;
-      moveCursorDown();
-      deleteLine();
-      cursor = cur;
-      return;
-    }
-
-    Cursor cur = cursor.normalized();
-    String left = l.substring(0, cur.column);
-    String right = l.substring(cur.column + numberOfCharacters);
-    cursor = cur;
-
-    // handle erase entire line
-    if (lines.length > 1 && (left + right).isEmpty) {
-      lines.removeAt(cur.line);
-      moveCursorUp();
-      moveCursorToStartOfLine();
-      return;
-    }
-
-    lines[cursor.line].text = left + right;
+    deleteRegular(numberOfCharacters);
   }
 
   void deleteLine({int numberOfLines = 1}) {
@@ -470,11 +443,47 @@ class Document {
   }
 
   void createList() {
-    lines.insert(
-      cursor.line,
-      TextLine(type: 2, align: TextAlign.start, hasColor: false, listLines: [
-        TextLine(type: 3, align: TextAlign.left, hasColor: false)
-      ]),
-    );
+    if (!isList) {
+      isList = true;
+      lines.insert(
+        cursor.line,
+        TextLine(
+          type: 2,
+          align: TextAlign.start,
+          hasColor: false,
+        ),
+      );
+    } else {
+      isList = false;
+    }
+  }
+
+  void deleteRegular(int numberOfCharacters) {
+    String l = lines[cursor.line].text;
+
+    // handle join lines
+    if (cursor.column >= l.length) {
+      Cursor cur = cursor.copy();
+      lines[cursor.line].text += lines[cursor.line + 1].text;
+      moveCursorDown();
+      deleteLine();
+      cursor = cur;
+      return;
+    }
+
+    Cursor cur = cursor.normalized();
+    String left = l.substring(0, cur.column);
+    String right = l.substring(cur.column + numberOfCharacters);
+    cursor = cur;
+
+    // handle erase entire line
+    if (lines.length > 1 && (left + right).isEmpty) {
+      lines.removeAt(cur.line);
+      moveCursorUp();
+      moveCursorToStartOfLine();
+      return;
+    }
+
+    lines[cursor.line].text = left + right;
   }
 }
