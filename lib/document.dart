@@ -355,7 +355,6 @@ class Document {
       case 'ctrl+l':
         setElementPosition(position: TextAlign.end, keepAnchor: false);
         break;
-
       case 'ctrl+j':
         setElementPosition(position: TextAlign.start, keepAnchor: false);
         break;
@@ -364,6 +363,9 @@ class Document {
         break;
       case 'ctrl+"':
         encapsulate(keepAnchor: true);
+        break;
+      case "ctrl+a":
+        selectAll();
         break;
     }
   }
@@ -532,5 +534,14 @@ class Document {
       // ignore: prefer_single_quotes
       lines[cursor.line].text = "$left \"$quouteContent\" $right";
     }
+  }
+
+  void selectAll() {
+    cursor.anchorLine = lines.length;
+    cursor.anchorColumn = lines.last.text.length;
+    cursor.column = 0;
+
+    moveCursorToStartOfDocument(keepAnchor: true);
+    _validateCursor(true);
   }
 }
