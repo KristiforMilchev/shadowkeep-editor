@@ -48,14 +48,24 @@ class ViewLine extends StatelessWidget {
     } else {
       return Padding(
         padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
-        child: Container(
-          padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-          child: RichText(
-            text: TextSpan(children: spans),
-            softWrap: true,
-            textAlign: textLine != null ? textLine!.align : TextAlign.left,
+        child: Stack(alignment: Alignment.centerLeft, children: [
+          const Positioned(
+            left: 0,
+            child: Icon(
+              Icons.circle,
+              size: 9,
+              color: Colors.white,
+            ),
           ),
-        ),
+          Container(
+            padding: const EdgeInsets.fromLTRB(15, 0, 10, 0),
+            child: RichText(
+              text: TextSpan(children: spans),
+              softWrap: true,
+              textAlign: textLine != null ? textLine!.align : TextAlign.left,
+            ),
+          ),
+        ]),
       );
     }
   }
