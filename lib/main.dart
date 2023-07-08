@@ -23,10 +23,15 @@ class _Editor extends State<Editor> {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(providers: [
-      ChangeNotifierProvider(create: (context) => doc),
-      Provider(create: (context) => Highlighter())
-    ], child: const InputListener(child: EditorView()));
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => doc),
+        Provider(create: (context) => Highlighter())
+      ],
+      child: const InputListener(
+        child: EditorView(),
+      ),
+    );
   }
 }
 
