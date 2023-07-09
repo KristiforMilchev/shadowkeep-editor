@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/rendering.dart';
@@ -224,6 +222,6 @@ class _InputListener extends State<InputListener> {
   executeCmd(String cmd) {
     DocumentProvider doc = Provider.of<DocumentProvider>(context);
     Document d = doc.doc;
-    d.command();
+    d.command(cmd);
   }
 }
