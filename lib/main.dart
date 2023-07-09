@@ -6,8 +6,9 @@ import 'input.dart';
 import 'highlighter.dart';
 
 class Editor extends StatefulWidget {
-  const Editor({super.key, this.path = ''});
   final String path;
+
+  const Editor({super.key, this.path = ''});
   @override
   _Editor createState() => _Editor();
 }

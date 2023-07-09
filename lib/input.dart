@@ -1,7 +1,11 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
+import 'package:infrastructure/interfaces/iobserver.dart';
+import 'package:get_it/get_it.dart';
 
 import 'document.dart';
 import 'editor_view.dart';
@@ -84,17 +88,21 @@ class InputListener extends StatefulWidget {
 
 class _InputListener extends State<InputListener> {
   late FocusNode focusNode;
+  late IObserver observer;
+  GetIt getIt = GetIt.I;
 
   @override
   void initState() {
     super.initState();
     focusNode = FocusNode();
+    observer = getIt.get<IObserver>();
   }
 
   @override
   void dispose() {
     super.dispose();
     focusNode.dispose();
+    observer.dispose('on_editor_command_passed');
   }
 
   @override
@@ -102,6 +110,7 @@ class _InputListener extends State<InputListener> {
     if (!focusNode.hasFocus) {
       focusNode.requestFocus();
     }
+    observer.subscribe('on_editor_command_passed', executeCmd);
 
     DocumentProvider doc = Provider.of<DocumentProvider>(context);
     Document d = doc.doc;
@@ -210,5 +219,11 @@ class _InputListener extends State<InputListener> {
         doc.touch();
       },
     );
+  }
+
+  executeCmd(String cmd) {
+    DocumentProvider doc = Provider.of<DocumentProvider>(context);
+    Document d = doc.doc;
+    d.command();
   }
 }
