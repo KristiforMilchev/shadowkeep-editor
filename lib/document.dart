@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:domain/models/enums.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shadowkeep_editor/text_line.dart';
 
 class Cursor {
