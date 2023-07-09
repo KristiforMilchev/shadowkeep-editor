@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'dart:convert';
-
+import 'package:domain/models/enums.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:shadowkeep_editor/text_line.dart';
@@ -322,6 +322,72 @@ class Document {
     cursor.anchorColumn = cursor.column;
   }
 
+  void executeFromUi(EditorCommand cmd) {
+    switch (cmd) {
+      case EditorCommand.copy:
+        clipboardText = selectedText();
+        break;
+      case EditorCommand.cut:
+        clipboardText = selectedText();
+        deleteSelectedText();
+        break;
+      case EditorCommand.paste:
+        insertText(clipboardText);
+        break;
+      case EditorCommand.save:
+        saveFile();
+        break;
+      case EditorCommand.h1:
+        convertToHeading(24, keepAnchor: true);
+        break;
+      case EditorCommand.h2:
+        convertToHeading(19, keepAnchor: true);
+        break;
+      case EditorCommand.h3:
+        convertToHeading(16, keepAnchor: true);
+        break;
+      case EditorCommand.bold:
+        setBold(keepAnchor: true);
+        break;
+      case EditorCommand.alignCenter:
+        setElementPosition(position: TextAlign.center, keepAnchor: false);
+        break;
+      case EditorCommand.alightRight:
+        setElementPosition(position: TextAlign.end, keepAnchor: false);
+        break;
+      case EditorCommand.alightLeft:
+        setElementPosition(position: TextAlign.start, keepAnchor: false);
+        break;
+      case EditorCommand.bulletList:
+        createList();
+        break;
+      case EditorCommand.wrapDoubleQuoute:
+        encapsulate(keepAnchor: true);
+        break;
+      case EditorCommand.selectAll:
+        selectAll();
+        break;
+
+      case EditorCommand.delete:
+        if (cursor.hasSelection()) {
+          deleteText(numberOfCharacters: cursor.column + cursor.anchorColumn);
+        } else {
+          deleteLine();
+        }
+        break;
+      case EditorCommand.undo:
+      // TODO: Handle this case.
+      case EditorCommand.redo:
+      // TODO: Handle this case.
+      case EditorCommand.orderedList:
+      // TODO: Handle this case.
+      case EditorCommand.wrapSingleQuoute:
+      // TODO: Handle this case.
+      case EditorCommand.underline:
+      // TODO: Handle this case.
+    }
+  }
+
   void command(String cmd) {
     switch (cmd) {
       case 'ctrl+c':
@@ -364,7 +430,7 @@ class Document {
       case 'ctrl+"':
         encapsulate(keepAnchor: true);
         break;
-      case "ctrl+a":
+      case 'ctrl+a':
         selectAll();
         break;
     }
