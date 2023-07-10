@@ -5,6 +5,8 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shadowkeep_editor/text_line.dart';
+import 'package:infrastructure/interfaces/iobserver.dart';
+import 'package:get_it/get_it.dart';
 
 class Cursor {
   Cursor({
@@ -49,11 +51,18 @@ class Cursor {
 }
 
 class Document {
+  GetIt getIt = GetIt.I;
+  IObserver? observer;
+
   String docPath = '';
   List<TextLine> lines = <TextLine>[];
   Cursor cursor = Cursor();
   String clipboardText = '';
   bool isList = false;
+
+  Document() {
+    observer = getIt.get<IObserver>();
+  }
 
   Future<bool> openFile(String path) async {
     lines = <TextLine>[];
@@ -94,6 +103,8 @@ class Document {
       cursor.anchorLine = cursor.line;
       cursor.anchorColumn = cursor.column;
     }
+
+    observer?.getObserver('line_number_size_updated', lines[cursor.line].size);
   }
 
   void moveCursor(int line, int column, {bool keepAnchor = false}) {
@@ -376,6 +387,12 @@ class Document {
           deleteLine();
         }
         break;
+      case EditorCommand.increaseFont:
+        increaseEditorFont();
+        break;
+      case EditorCommand.decreseFont:
+        decreaseEditorFont();
+        break;
       case EditorCommand.undo:
       // TODO: Handle this case.
       case EditorCommand.redo:
@@ -610,5 +627,17 @@ class Document {
 
     moveCursorToStartOfDocument(keepAnchor: true);
     _validateCursor(true);
+  }
+
+  void increaseEditorFont() {
+    lines[cursor.line].size = lines[cursor.line].size + 1;
+    observer?.getObserver('line_number_size_updated', lines[cursor.line].size);
+  }
+
+  void decreaseEditorFont() {
+    if (lines[cursor.line].size < 1) return;
+
+    lines[cursor.line].size = lines[cursor.line].size - 1;
+    observer?.getObserver('line_number_size_updated', lines[cursor.line].size);
   }
 }
