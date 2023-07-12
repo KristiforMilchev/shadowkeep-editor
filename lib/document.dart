@@ -1,12 +1,12 @@
-import 'dart:io';
 import 'dart:convert';
-import 'package:domain/models/enums.dart';
+import 'dart:io';
+
 import 'package:collection/collection.dart';
+import 'package:domain/models/enums.dart';
 import 'package:flutter/material.dart';
-import 'package:shadowkeep_editor/text_line.dart';
-import 'package:infrastructure/interfaces/iobserver.dart';
-import 'package:domain/models/font_changed_request.dart';
 import 'package:get_it/get_it.dart';
+import 'package:infrastructure/interfaces/iobserver.dart';
+import 'package:shadowkeep_editor/text_line.dart';
 
 class Cursor {
   Cursor({
@@ -622,13 +622,19 @@ class Document {
     }
   }
 
-  void selectAll() {
-    cursor.anchorLine = lines.length;
-    cursor.anchorColumn = lines.last.text.length;
-    cursor.column = 0;
+  List<String> selectAll() {
+    List<String> res = <String>[];
+    Cursor cur = cursor.normalized();
+
+    res.add(lines[cur.line].text.substring(cur.column));
+    for (int i = cur.line + 1; i < cur.anchorLine; i++) {
+      res.add(lines[i].text);
+    }
+    res.add(lines[cur.anchorLine].text.substring(0, cur.anchorColumn));
 
     moveCursorToStartOfDocument(keepAnchor: true);
     _validateCursor(true);
+    return res;
   }
 
   void increaseEditorFont() {
