@@ -11,6 +11,7 @@ class TextLine {
   List<TextLine>? listLines;
   int lineNumber;
 
+  bool isUnderlined;
   TextLine({
     this.text = '',
     required this.type,
@@ -21,5 +22,6 @@ class TextLine {
     this.isBold = false,
     this.listLines,
     this.lineNumber = 0,
+    this.isUnderlined = false,
   });
 }

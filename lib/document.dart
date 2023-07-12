@@ -395,6 +395,9 @@ class Document {
       case EditorCommand.decreseFont:
         decreaseEditorFont();
         break;
+      case EditorCommand.underline:
+        underLineText();
+        break;
       case EditorCommand.undo:
       // TODO: Handle this case.
       case EditorCommand.redo:
@@ -402,8 +405,6 @@ class Document {
       case EditorCommand.orderedList:
       // TODO: Handle this case.
       case EditorCommand.wrapSingleQuoute:
-      // TODO: Handle this case.
-      case EditorCommand.underline:
       // TODO: Handle this case.
     }
   }
@@ -651,5 +652,9 @@ class Document {
 
   onFontFamilyChanged(String fontName) {
     _activeFont = fontName;
+  }
+
+  void underLineText() {
+    lines[cursor.line].isUnderlined = !lines[cursor.line].isUnderlined;
   }
 }

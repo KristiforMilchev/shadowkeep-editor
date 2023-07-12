@@ -108,7 +108,11 @@ class Highlighter {
             line > cur.anchorLine ||
             (line == cur.anchorLine && i + 1 > cur.anchorColumn)) {
         } else {
-          style = style.copyWith(backgroundColor: selection.withOpacity(0.75));
+          style = style.copyWith(
+            backgroundColor: selection.withOpacity(0.75),
+            decoration:
+                textLine!.isUnderlined ? TextDecoration.underline : null,
+          );
         }
       }
 

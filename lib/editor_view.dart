@@ -40,7 +40,9 @@ class ViewLine extends StatelessWidget {
       return Container(
         padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
         child: RichText(
-          text: TextSpan(children: spans),
+          text: TextSpan(
+            children: spans,
+          ),
           softWrap: true,
           textAlign: textLine != null ? textLine!.align : TextAlign.left,
         ),
