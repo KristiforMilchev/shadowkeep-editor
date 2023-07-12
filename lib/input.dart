@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:infrastructure/interfaces/iobserver.dart';
 import 'package:get_it/get_it.dart';
 import 'package:domain/models/enums.dart';
-
+import 'package:domain/models/font_changed_request.dart';
 import 'document.dart';
 import 'editor_view.dart';
 import 'highlighter.dart';
@@ -97,6 +97,7 @@ class _InputListener extends State<InputListener> {
     focusNode = FocusNode();
     observer = getIt.get<IObserver>();
     observer.subscribe('on_editor_command_passed', executeCmd);
+    observer.subscribe('change_font_family', onFontFamilyChanged);
   }
 
   @override
@@ -104,6 +105,7 @@ class _InputListener extends State<InputListener> {
     super.dispose();
     focusNode.dispose();
     observer.dispose('on_editor_command_passed');
+    observer.dispose('change_font_family');
   }
 
   @override
@@ -224,6 +226,11 @@ class _InputListener extends State<InputListener> {
 
   executeCmd(EditorCommand cmd) {
     doc.doc.executeFromUi(cmd);
+    Provider.of<DocumentProvider>(context, listen: false).touch();
+  }
+
+  onFontFamilyChanged(FontChangeRequest request) {
+    doc.doc.onFontFamilyChanged(request.fontName);
     Provider.of<DocumentProvider>(context, listen: false).touch();
   }
 }

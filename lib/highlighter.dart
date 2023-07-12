@@ -66,7 +66,7 @@ class Highlighter {
     }
 
     TextStyle defaultStyle = TextStyle(
-      fontFamily: 'FiraCode',
+      fontFamily: document.activeFont,
       fontSize: size,
       color: foreground,
       fontWeight: weight,
