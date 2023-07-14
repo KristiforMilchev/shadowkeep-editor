@@ -231,6 +231,7 @@ class _InputListener extends State<InputListener> {
 
   onFontFamilyChanged(FontChangeRequest request) {
     doc.doc.onFontFamilyChanged(request.fontName);
+
     Provider.of<DocumentProvider>(context, listen: false).touch();
   }
 }

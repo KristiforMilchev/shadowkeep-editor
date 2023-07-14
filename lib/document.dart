@@ -6,6 +6,7 @@ import 'package:domain/models/enums.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:infrastructure/interfaces/iobserver.dart';
+import 'package:shadowkeep_editor/history.dart';
 import 'package:shadowkeep_editor/text_line.dart';
 
 class Cursor {
@@ -61,6 +62,8 @@ class Document {
   bool isList = false;
   String _activeFont = 'FiraCode';
   String get activeFont => _activeFont;
+
+  int historyIndex = 0;
 
   Document() {
     observer = getIt.get<IObserver>();
@@ -231,6 +234,7 @@ class Document {
       return;
     }
 
+    History.addToHistory(lines.toList());
     lines[cursor.line].text = left + text + right;
     moveCursorRight(count: text.length);
   }
@@ -399,9 +403,17 @@ class Document {
         underLineText();
         break;
       case EditorCommand.undo:
-      // TODO: Handle this case.
+        var getUndo = History.undo();
+        if (getUndo == null) return;
+
+        lines = getUndo;
+        break;
       case EditorCommand.redo:
-      // TODO: Handle this case.
+        var getRedo = History.redo();
+        if (getRedo == null) return;
+
+        lines = getRedo;
+        break;
       case EditorCommand.orderedList:
       // TODO: Handle this case.
       case EditorCommand.wrapSingleQuoute:
