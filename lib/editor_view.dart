@@ -35,11 +35,7 @@ class ViewLine extends StatelessWidget {
     DocumentProvider doc = Provider.of<DocumentProvider>(context);
     Highlighter hl = Provider.of<Highlighter>(context);
     List<InlineSpan> spans = hl.run(
-      textLine != null ? textLine!.text : '',
-      lineNumber,
-      doc.doc,
-      textLine,
-    );
+        textLine != null ? textLine!.text : '', lineNumber, doc.doc, textLine);
 
     if (textLine?.type == 1) {
       return Container(

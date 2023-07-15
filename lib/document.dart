@@ -8,6 +8,7 @@ import 'package:get_it/get_it.dart';
 import 'package:infrastructure/interfaces/iobserver.dart';
 import 'package:shadowkeep_editor/history.dart';
 import 'package:shadowkeep_editor/text_line.dart';
+import 'package:shadowkeep_editor/text_line_styles.dart';
 
 class Cursor {
   Cursor({
@@ -240,6 +241,7 @@ class Document {
           type: isList ? 2 : 1,
           align: TextAlign.left,
           hasColor: false,
+          lineStyles: [],
         ),
       );
 
@@ -532,7 +534,22 @@ class Document {
   }
 
   void setBold({required bool keepAnchor}) {
-    lines[cursor.line].isBold = !lines[cursor.line].isBold;
+    if (cursor.hasSelection()) {
+      if (lines[cursor.line].lineStyles == null) {
+        lines[cursor.line].lineStyles = [];
+      }
+      lines[cursor.line].lineStyles?.add(
+            TextLineStyles(
+              hasColor: null,
+              anchor: cursor.anchorColumn,
+              column: cursor.column,
+              isBold: true,
+              isUnderlined: false,
+            ),
+          );
+    } else {
+      lines[cursor.line].isBold = !lines[cursor.line].isBold;
+    }
     _validateCursor(keepAnchor);
   }
 
