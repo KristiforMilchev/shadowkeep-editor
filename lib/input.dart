@@ -118,6 +118,7 @@ class _InputListener extends State<InputListener> {
     Document d = doc.doc;
 
     return GestureDetector(
+      onTap: () => RequestFocusAction(),
       child: Focus(
           child: widget.child,
           focusNode: focusNode,
@@ -191,15 +192,17 @@ class _InputListener extends State<InputListener> {
                   break;
                 default:
                   {
-                    int k = event.logicalKey.keyId;
+                    try {
+                      int k = event.logicalKey.keyId;
 
-                    String ch = String.fromCharCode(
-                        97 + k - LogicalKeyboardKey.keyA.keyId);
-                    if (event.isControlPressed) {
-                      d.command('ctrl+$ch');
-                      break;
-                    }
-                    d.insertText(ch);
+                      String ch = String.fromCharCode(
+                          97 + k - LogicalKeyboardKey.keyA.keyId);
+                      if (event.isControlPressed) {
+                        d.command('ctrl+$ch');
+                        break;
+                      }
+                      d.insertText(ch);
+                    } catch (ex) {}
                     break;
                   }
               }

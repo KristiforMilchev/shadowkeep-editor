@@ -69,16 +69,30 @@ class Document {
     observer = getIt.get<IObserver>();
   }
 
+  newFile() {
+    lines = <TextLine>[];
+
+    insertText('');
+  }
+
   Future<bool> openFile(String path) async {
     lines = <TextLine>[];
     docPath = path;
     File f = File(docPath);
-    await f.openRead().map(utf8.decode).transform(const LineSplitter()).forEach(
-      (l) {
-        insertText(l);
-        insertNewLine();
-      },
-    );
+
+    var openFile = f.openRead();
+    var lenght = await openFile.length;
+    if (lenght > 0) {
+      openFile.map(utf8.decode).transform(const LineSplitter()).forEach(
+        (l) {
+          insertText(l);
+          insertNewLine();
+        },
+      );
+    } else {
+      insertText("test");
+    }
+
     moveCursorToStartOfDocument();
     return true;
   }

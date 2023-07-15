@@ -19,6 +19,7 @@ class _Editor extends State<Editor> {
   void initState() {
     doc = DocumentProvider();
     if (widget.path.isNotEmpty) doc.openFile(widget.path);
+    if (widget.path.isEmpty) doc.startNewFile();
     super.initState();
   }
 

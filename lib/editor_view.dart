@@ -17,6 +17,11 @@ class DocumentProvider extends ChangeNotifier {
   void touch() {
     notifyListeners();
   }
+
+  void startNewFile() async {
+    await doc.newFile();
+    touch();
+  }
 }
 
 class ViewLine extends StatelessWidget {
