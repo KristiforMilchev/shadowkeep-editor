@@ -1,6 +1,3 @@
-import 'dart:html';
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:shadowkeep_editor/text_line.dart';
 import 'dart:collection';
