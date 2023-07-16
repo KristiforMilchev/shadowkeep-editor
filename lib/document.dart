@@ -63,6 +63,7 @@ class Document {
   bool isList = false;
   String _activeFont = 'FiraCode';
   String get activeFont => _activeFont;
+  GlobalKey cursorKey = GlobalKey();
 
   int historyIndex = 0;
 

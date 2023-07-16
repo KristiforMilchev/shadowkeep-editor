@@ -114,6 +114,7 @@ class Highlighter {
             alignment: ui.PlaceholderAlignment.baseline,
             baseline: TextBaseline.alphabetic,
             child: Container(
+              key: document.cursorKey,
               decoration: const BoxDecoration(
                 border: Border(
                   left: BorderSide(

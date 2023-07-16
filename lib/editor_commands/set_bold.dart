@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:shadowkeep_editor/document.dart';
 import 'package:shadowkeep_editor/editor_commands/general.dart';
 import 'package:shadowkeep_editor/text_line.dart';
@@ -22,7 +20,7 @@ class Bold {
         : cursor.anchorColumn;
 
     lines[cursor.line].lineStyles!.forEach((element) {
-      print("Existing styles ${element.column}, ${element.anchor}");
+      print('Existing styles ${element.column}, ${element.anchor}');
     });
 
     if (lines[cursor.line].lineStyles!.any((element) =>
@@ -33,15 +31,14 @@ class Bold {
                 element.column >= start &&
                 element.anchor <= end,
           );
+
       return;
     }
 
     lines[cursor.line].lineStyles?.add(TextLineStyles(
-          hasColor: null,
-          anchor: end,
+          anchor: end - 1,
           column: start,
           isBold: true,
-          isUnderlined: false,
         ));
   }
 }

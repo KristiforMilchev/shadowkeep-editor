@@ -126,6 +126,9 @@ class _InputListener extends State<InputListener> {
           onKey: (FocusNode node, RawKeyEvent event) {
             if (event.runtimeType.toString() == 'RawKeyDownEvent') {
               switch (event.logicalKey.keyLabel) {
+                case 'F1':
+                  observer.getObserver('open_reference_box', doc.doc.cursorKey);
+                  break;
                 case 'Home':
                   if (event.isControlPressed) {
                     d.moveCursorToStartOfDocument();

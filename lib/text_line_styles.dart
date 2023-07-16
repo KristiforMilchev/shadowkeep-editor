@@ -10,8 +10,8 @@ class TextLineStyles {
   TextLineStyles({
     required this.anchor,
     required this.column,
-    required this.isBold,
-    required this.hasColor,
-    required this.isUnderlined,
+    this.isBold = false,
+    this.hasColor = Colors.white,
+    this.isUnderlined = false,
   });
 }
