@@ -81,7 +81,6 @@ class Highlighter {
               .where((element) => element.anchor >= i && element.column <= i);
           for (var currentStyle in apply) {
             style = style.copyWith(
-              fontSize: 22,
               decoration: currentStyle.isUnderlined
                   ? TextDecoration.underline
                   : style.decoration,
@@ -118,7 +117,7 @@ class Highlighter {
               decoration: const BoxDecoration(
                 border: Border(
                   left: BorderSide(
-                    width: 5,
+                    width: 1.5,
                     color: Colors.red,
                   ),
                 ),

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:shadowkeep_editor/document.dart';
 import 'package:shadowkeep_editor/editor_commands/general.dart';
 import 'package:shadowkeep_editor/text_line.dart';
@@ -12,36 +14,32 @@ class Bold {
 
     General.ensureInitialized(lines, cursor);
 
-    // if (lines[cursor.line].lineStyles!.any(
-    //       (element) =>
-    //           element.isBold &&
-    //           element.column == cursor.column &&
-    //           element.anchor <= cursor.anchorColumn,
-    //     )) {
-    //   lines[cursor.line].lineStyles!.removeWhere((element) => element.isBold);
-    //   return;
-    // }
+    var start = cursor.column > cursor.anchorColumn
+        ? cursor.anchorColumn
+        : cursor.column;
+    var end = cursor.column > cursor.anchorColumn
+        ? cursor.column
+        : cursor.anchorColumn;
+
+    lines[cursor.line].lineStyles!.forEach((element) {
+      print("Existing styles ${element.column}, ${element.anchor}");
+    });
 
     if (lines[cursor.line].lineStyles!.any((element) =>
-        element.isBold &&
-        element.column == cursor.column &&
-        element.anchor >= cursor.anchorColumn)) {
-      lines[cursor.line]
-          .lineStyles!
-          .where((element) =>
-              element.isBold &&
-              element.column == cursor.column &&
-              element.anchor >= cursor.anchorColumn)
-          .forEach((e) {
-        lines[cursor.line].lineStyles!.remove(e);
-      });
+        element.isBold && element.column >= start && element.anchor <= end)) {
+      lines[cursor.line].lineStyles!.removeWhere(
+            (element) =>
+                element.isBold &&
+                element.column >= start &&
+                element.anchor <= end,
+          );
       return;
     }
 
     lines[cursor.line].lineStyles?.add(TextLineStyles(
           hasColor: null,
-          anchor: cursor.anchorColumn,
-          column: cursor.column,
+          anchor: end,
+          column: start,
           isBold: true,
           isUnderlined: false,
         ));
