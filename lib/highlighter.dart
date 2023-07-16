@@ -81,12 +81,12 @@ class Highlighter {
               .where((element) => element.anchor >= i && element.column <= i);
           for (var currentStyle in apply) {
             style = style.copyWith(
-                fontWeight:
-                    currentStyle.isBold ? FontWeight.bold : style.fontWeight);
-            style = style.copyWith(
+              fontSize: 22,
               decoration: currentStyle.isUnderlined
                   ? TextDecoration.underline
                   : style.decoration,
+              fontWeight:
+                  currentStyle.isBold ? FontWeight.bold : style.fontWeight,
             );
           }
         }

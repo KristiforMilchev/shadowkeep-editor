@@ -6,9 +6,9 @@ import 'package:domain/models/enums.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:infrastructure/interfaces/iobserver.dart';
+import 'package:shadowkeep_editor/editor_commands/set_bold.dart';
 import 'package:shadowkeep_editor/history.dart';
 import 'package:shadowkeep_editor/text_line.dart';
-import 'package:shadowkeep_editor/text_line_styles.dart';
 
 class Cursor {
   Cursor({
@@ -381,7 +381,8 @@ class Document {
         convertToHeading(16, keepAnchor: true);
         break;
       case EditorCommand.bold:
-        setBold(keepAnchor: true);
+        Bold.apply(lines, cursor);
+        _validateCursor(true);
         break;
       case EditorCommand.alignCenter:
         setElementPosition(position: TextAlign.center, keepAnchor: false);
@@ -462,7 +463,8 @@ class Document {
         convertToHeading(16, keepAnchor: true);
         break;
       case 'ctrl+b':
-        setBold(keepAnchor: true);
+        Bold.apply(lines, cursor);
+        _validateCursor(true);
         break;
       case 'ctrl+k':
         setElementPosition(position: TextAlign.center, keepAnchor: false);
@@ -530,26 +532,6 @@ class Document {
 
   void convertToHeading(int i, {required bool keepAnchor}) {
     lines[cursor.line].size = i;
-    _validateCursor(keepAnchor);
-  }
-
-  void setBold({required bool keepAnchor}) {
-    if (cursor.hasSelection()) {
-      if (lines[cursor.line].lineStyles == null) {
-        lines[cursor.line].lineStyles = [];
-      }
-      lines[cursor.line].lineStyles?.add(
-            TextLineStyles(
-              hasColor: null,
-              anchor: cursor.anchorColumn,
-              column: cursor.column,
-              isBold: true,
-              isUnderlined: false,
-            ),
-          );
-    } else {
-      lines[cursor.line].isBold = !lines[cursor.line].isBold;
-    }
     _validateCursor(keepAnchor);
   }
 
