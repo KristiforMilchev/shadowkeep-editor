@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shadowkeep_editor/cursor.dart';
 import 'package:shadowkeep_editor/text_line.dart';
 import 'dart:collection';
 import 'dart:ui' as ui;

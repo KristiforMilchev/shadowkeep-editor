@@ -1,4 +1,4 @@
-import 'package:shadowkeep_editor/document.dart';
+import 'package:shadowkeep_editor/cursor.dart';
 import 'package:shadowkeep_editor/editor_commands/general.dart';
 import 'package:shadowkeep_editor/text_line.dart';
 import 'package:shadowkeep_editor/text_line_styles.dart';

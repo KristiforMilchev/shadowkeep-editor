@@ -6,6 +6,8 @@ import 'package:infrastructure/interfaces/iobserver.dart';
 import 'package:get_it/get_it.dart';
 import 'package:domain/models/enums.dart';
 import 'package:domain/models/font_changed_request.dart';
+import 'package:shadowkeep_editor/editor_commands/cursor_commands.dart';
+import 'package:shadowkeep_editor/editor_commands/general.dart';
 import 'document.dart';
 import 'editor_view.dart';
 import 'highlighter.dart';
@@ -131,66 +133,74 @@ class _InputListener extends State<InputListener> {
                   break;
                 case 'Home':
                   if (event.isControlPressed) {
-                    d.moveCursorToStartOfDocument();
+                    CursorCommands.moveCursorToStartOfDocument(
+                        d.lines, d.cursor);
                   } else {
-                    d.moveCursorToStartOfLine();
+                    CursorCommands.moveCursorToStartOfLine(d.lines, d.cursor);
                   }
                   break;
                 case 'End':
                   if (event.isControlPressed) {
-                    d.moveCursorToEndOfDocument();
+                    CursorCommands.moveCursorToEndOfDocument(d.lines, d.cursor);
                   } else {
-                    d.moveCursorToEndOfLine();
+                    CursorCommands.moveCursorToEndOfLine(d.lines, d.cursor);
                   }
                   break;
                 case 'Tab':
                   d.insertText('    ');
                   break;
                 case 'Enter':
-                  d.deleteSelectedText();
+                  General.deleteSelectedText(d.lines, d.cursor);
                   d.insertNewLine();
                   break;
                 case 'Backspace':
                   if (d.cursor.hasSelection()) {
-                    d.deleteSelectedText();
+                    General.deleteSelectedText(d.lines, d.cursor);
                   } else {
-                    d.moveCursorLeft();
-                    d.deleteText();
+                    CursorCommands.moveCursorLeft(d.lines, d.cursor);
+                    General.deleteText(d.lines, d.cursor);
                   }
                   break;
                 case 'Delete':
                   if (d.cursor.hasSelection()) {
-                    d.deleteSelectedText();
+                    General.deleteSelectedText(d.lines, d.cursor);
                   } else {
-                    d.deleteText();
+                    General.deleteText(d.lines, d.cursor);
                   }
                   break;
                 case 'Arrow Left':
                   if (event.isControlPressed) {
-                    d.moveCursorLeftMarkWord(keepAnchor: event.isShiftPressed);
+                    CursorCommands.moveCursorLeftMarkWord(d.lines, d.cursor,
+                        keepAnchor: event.isShiftPressed);
                   } else {
-                    d.moveCursorLeft(keepAnchor: event.isShiftPressed);
+                    CursorCommands.moveCursorLeft(d.lines, d.cursor,
+                        keepAnchor: event.isShiftPressed);
                   }
+
                   break;
                 case 'Arrow Right':
                   if (event.isControlPressed) {
-                    d.moveCursorRightMarkWord(keepAnchor: event.isShiftPressed);
+                    CursorCommands.moveCursorRightMarkWord(d.lines, d.cursor,
+                        keepAnchor: event.isShiftPressed);
                   } else {
-                    d.moveCursorRight(keepAnchor: event.isShiftPressed);
+                    CursorCommands.moveCursorRight(d.lines, d.cursor,
+                        keepAnchor: event.isShiftPressed);
                   }
                   break;
                 case 'Arrow Up':
                   if (event.isControlPressed) {
                     d.skipParagraphUp(keepAnchor: event.isShiftPressed);
                   } else {
-                    d.moveCursorUp(keepAnchor: event.isShiftPressed);
+                    CursorCommands.moveCursorUp(d.lines, d.cursor,
+                        keepAnchor: event.isShiftPressed);
                   }
                   break;
                 case 'Arrow Down':
                   if (event.isControlPressed) {
                     d.skipParagraphDown(keepAnchor: event.isShiftPressed);
                   } else {
-                    d.moveCursorDown(keepAnchor: event.isShiftPressed);
+                    CursorCommands.moveCursorDown(d.lines, d.cursor,
+                        keepAnchor: event.isShiftPressed);
                   }
                   break;
                 default:
