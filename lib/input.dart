@@ -111,6 +111,7 @@ class _InputListener extends State<InputListener> {
     focusNode.dispose();
     observer.dispose('on_editor_command_passed');
     observer.dispose('change_font_family');
+    observer.dispose('intellisense_selected');
   }
 
   @override

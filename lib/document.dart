@@ -9,15 +9,18 @@ import 'package:infrastructure/interfaces/iobserver.dart';
 import 'package:shadowkeep_editor/cursor.dart';
 import 'package:shadowkeep_editor/editor_commands/cursor_commands.dart';
 import 'package:shadowkeep_editor/editor_commands/general.dart';
+import 'package:shadowkeep_editor/editor_commands/intellicode.dart';
 import 'package:shadowkeep_editor/editor_commands/quoutes.dart';
 import 'package:shadowkeep_editor/editor_commands/bold.dart';
 import 'package:shadowkeep_editor/editor_commands/underline.dart';
 import 'package:shadowkeep_editor/history.dart';
 import 'package:shadowkeep_editor/text_line.dart';
+import 'package:domain/models/intellisense_data.dart';
 
 class Document {
   GetIt getIt = GetIt.I;
   static IObserver? observer;
+  List<IntellisenseData> intellisenseData = [];
 
   String docPath = '';
   List<TextLine> lines = <TextLine>[];
@@ -119,6 +122,14 @@ class Document {
 
     History.addToHistory(lines.toList());
     lines[cursor.line].text = left + text + right;
+    var wholeLine = lines[cursor.line].text.split(' ').last;
+    if (intellisenseData.any((element) => element.value == wholeLine)) {
+      General.ensureInitialized(lines, cursor);
+      var data =
+          intellisenseData.firstWhere((element) => element.value == wholeLine);
+      Intellicode.onElementSelected(wholeLine, data.type, lines, cursor);
+    }
+
     CursorCommands.moveCursorRight(lines, cursor, count: text.length);
   }
 

@@ -4,10 +4,11 @@ import 'package:shadowkeep_editor/text_line.dart';
 
 import 'document.dart';
 import 'highlighter.dart';
+import 'package:domain/models/intellisense_data.dart';
 
 class DocumentProvider extends ChangeNotifier {
   Document doc = Document();
-
+  List<IntellisenseData> intellisenseData = [];
   Future<bool> openFile(String path) async {
     bool res = await doc.openFile(path);
     touch();
@@ -21,6 +22,11 @@ class DocumentProvider extends ChangeNotifier {
   void startNewFile() async {
     await doc.newFile();
     touch();
+  }
+
+  void setIntellisenseData(List<IntellisenseData> data) {
+    intellisenseData = data;
+    doc.intellisenseData = data;
   }
 }
 

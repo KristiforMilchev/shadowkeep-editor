@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:shadowkeep_editor/cursor.dart';
 import 'package:shadowkeep_editor/document.dart';
 import 'package:shadowkeep_editor/editor_commands/cursor_commands.dart';
@@ -70,8 +72,19 @@ class General {
       cursor = cur;
       return;
     }
-
     Cursor cur = cursor.normalized();
+
+    if (lines[cursor.line].lineStyles != null) {
+      lines[cursor.line].lineStyles!.removeWhere((element) =>
+          element.column <= cur.column &&
+          element.anchor >= cur.column + numberOfCharacters);
+      var checkLenght = lines[cursor.line].text.length;
+
+      lines[cursor.line]
+          .lineStyles!
+          .removeWhere((element) => element.anchor >= checkLenght);
+    }
+
     String left = l.substring(0, cur.column);
     String right = l.substring(cur.column + numberOfCharacters);
     cursor = cur;

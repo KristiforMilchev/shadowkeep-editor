@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:domain/models/intellisense_data.dart';
 
 import 'editor_view.dart';
 import 'input.dart';
 import 'highlighter.dart';
 
 class Editor extends StatefulWidget {
+  final List<IntellisenseData> intellisenseData;
   final String path;
 
-  const Editor({super.key, this.path = ''});
+  const Editor({super.key, this.path = '', required this.intellisenseData});
   @override
   _Editor createState() => _Editor();
 }
@@ -18,6 +20,7 @@ class _Editor extends State<Editor> {
   @override
   void initState() {
     doc = DocumentProvider();
+    doc.setIntellisenseData(widget.intellisenseData);
     if (widget.path.isNotEmpty) doc.openFile(widget.path);
     if (widget.path.isEmpty) doc.startNewFile();
     super.initState();
@@ -49,7 +52,7 @@ void main() async {
       debugShowCheckedModeBanner: false,
       theme: themeData,
       home: const Scaffold(
-        body: Editor(path: './tests/tinywl.c'),
+        body: Editor(path: './tests/tinywl.c', intellisenseData: []),
       ),
     ),
   );
