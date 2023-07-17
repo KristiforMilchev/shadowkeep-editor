@@ -8,6 +8,8 @@ import 'package:domain/models/enums.dart';
 import 'package:domain/models/font_changed_request.dart';
 import 'package:shadowkeep_editor/editor_commands/cursor_commands.dart';
 import 'package:shadowkeep_editor/editor_commands/general.dart';
+import 'package:shadowkeep_editor/editor_commands/intellicode.dart';
+import 'package:domain/models/intellisense_data.dart';
 import 'document.dart';
 import 'editor_view.dart';
 import 'highlighter.dart';
@@ -100,6 +102,7 @@ class _InputListener extends State<InputListener> {
     observer = getIt.get<IObserver>();
     observer.subscribe('on_editor_command_passed', executeCmd);
     observer.subscribe('change_font_family', onFontFamilyChanged);
+    observer.subscribe('intellisense_selected', onIntellisenseAdd);
   }
 
   @override
@@ -248,6 +251,17 @@ class _InputListener extends State<InputListener> {
   onFontFamilyChanged(FontChangeRequest request) {
     doc.doc.onFontFamilyChanged(request.fontName);
 
+    Provider.of<DocumentProvider>(context, listen: false).touch();
+  }
+
+  onIntellisenseAdd(IntellisenseData data) {
+    doc.doc.insertText(data.value);
+    Intellicode.onElementSelected(
+      data.value,
+      data.type,
+      doc.doc.lines,
+      doc.doc.cursor,
+    );
     Provider.of<DocumentProvider>(context, listen: false).touch();
   }
 }

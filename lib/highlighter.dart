@@ -85,6 +85,7 @@ class Highlighter {
               decoration: currentStyle.isUnderlined
                   ? TextDecoration.underline
                   : style.decoration,
+              color: currentStyle.hasColor,
               fontWeight:
                   currentStyle.isBold ? FontWeight.bold : style.fontWeight,
             );
