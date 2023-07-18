@@ -1,17 +1,51 @@
-# editor_from_scratch
+# Shadowkeep text editor.
 
-This is the source for the flutter editor under 1000 lines of code - as written for the article at medium:
+This repository is a part of the Shadowkeep software, it contains the base features of the text editor in the application. It's abstracted as a separate repository for easier maitnance and extendability, and it allows reusability in order flutter based desktop software that might need an editor.
 
-https://medium.com/@marvinsanchez_43796/build-a-text-editor-with-flutter-ui-under-1000-lines-of-code-5a9dd2a053da
+# Features
+ 
+ - Syntax highlighing
+ - Text editing
+ - Loading txt files
+ - Reading word files
+ - Reading pdf files
+ - Adjustable Keybindings
+ - Adjustable font sizes
+ - Custom font support
+ - Configurable color scheme
 
-# flutter_editor
+## Commands
 
-This project is for article purposes onl - for tutorial or for proof of concept. A more complete editor is flutter_editor:
+ - Copy
+ - Paste
+ - Undo
+ - Redo
+ - Wrap '"" 
+ - Wrap ' ' '
+ - Lists
+    - bullet point
+    - ordered list (1,2,3)
+ - Syntax highlithing for special words
+ - Grammar anlysis
+ - Left align
+ - Center
+ - Right Align
+ - RLT support
+ - Heading 1
+ - Heading 2
+ - Heading 3
+ - Paragraph
 
-https://github.com/icedman/flutter_editor
+ ### Supported file formats
 
-![screenshot](https://raw.githubusercontent.com/icedman/flutter_editor/main/screenshots/Screenshot%20from%202022-03-09%2018-11-43.png)
+ - docx
+ - pdf
+ - txt
 
-# Ashlar Code (Android)
+#### Purpose
 
- And some concepts here are used in the more advanced android app Ashlar Code (http://www.munchyapps.com/)
+The "Shadowkeep software" is free software, intended to ease the life of book writers, by providing an integrated enviroment where they can plan and execute their amazing work. In order to keep the software truely free we decided to build our own editor but at the same time we want this editor to be usable standalone for any desktop software under the flutter/dart ecosystem. Thus we strive to keep it abstracted from the main repository. 
+
+#### Contributions
+
+All contributions are welcome, if you're interested in contributing open an issue or shoot me an email at kristiformilchev@outlook.com 
