@@ -220,7 +220,9 @@ class _InputListener extends State<InputListener> {
                       }
 
                       if (General.isCapsLockOn()) {
-                        d.insertText(ch.toUpperCase());
+                        d.insertText(
+                          event.isShiftPressed ? ch : ch.toUpperCase(),
+                        );
                         break;
                       }
 
