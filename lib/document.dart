@@ -291,6 +291,10 @@ class Document {
       case 'ctrl+a':
         General.selectAll(lines, cursor);
         break;
+      case 'ctrl+i':
+        insertNewLine();
+        lines[cursor.line].type = 4;
+        break;
     }
   }
 

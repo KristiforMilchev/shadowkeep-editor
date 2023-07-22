@@ -134,15 +134,15 @@ class General {
 
   static List<String> selectAll(List<TextLine> lines, Cursor cursor) {
     List<String> res = <String>[];
-    Cursor cur = cursor.normalized();
 
-    res.add(lines[cur.line].text.substring(cur.column));
-    for (int i = cur.line + 1; i < cur.anchorLine; i++) {
+    for (var i = 0; i < lines.length; i++) {
       res.add(lines[i].text);
+      if (lines[i].type == 4) {
+        lines[i].isSelected = true;
+      }
     }
-    res.add(lines[cur.anchorLine].text.substring(0, cur.anchorColumn));
-
     CursorCommands.moveCursorToStartOfDocument(lines, cursor, keepAnchor: true);
+
     validateCursor(lines, cursor, true);
     return res;
   }

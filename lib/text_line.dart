@@ -12,18 +12,20 @@ class TextLine {
   List<TextLine>? listLines;
   int lineNumber;
   List<TextLineStyles>? lineStyles;
-
+  bool isSelected;
   bool isUnderlined;
-  TextLine(
-      {this.text = '',
-      required this.type,
-      required this.align,
-      this.color,
-      required this.hasColor,
-      this.size = 14,
-      this.isBold = false,
-      this.listLines,
-      this.lineNumber = 0,
-      this.isUnderlined = false,
-      this.lineStyles});
+  TextLine({
+    this.text = '',
+    required this.type,
+    required this.align,
+    this.color,
+    required this.hasColor,
+    this.size = 14,
+    this.isBold = false,
+    this.listLines,
+    this.lineNumber = 0,
+    this.isUnderlined = false,
+    this.lineStyles,
+    this.isSelected = false,
+  });
 }

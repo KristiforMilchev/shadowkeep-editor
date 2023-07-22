@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shadowkeep_editor/text_line.dart';
@@ -50,12 +52,24 @@ class ViewLine extends StatelessWidget {
     if (textLine?.type == 1) {
       return Container(
         padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+        margin: EdgeInsets.all(50),
         child: RichText(
           text: TextSpan(
             children: spans,
           ),
           softWrap: true,
           textAlign: textLine != null ? textLine!.align : TextAlign.left,
+        ),
+      );
+    }
+    if (textLine?.type == 4) {
+      return Container(
+        color: textLine!.isSelected ? Colors.red : Colors.transparent,
+        child: Image.file(
+          File("/home/kristifor/Desktop/Tux_Mono.svg.png"),
+          width: 300,
+          height: 300,
+          fit: BoxFit.contain,
         ),
       );
     } else {
