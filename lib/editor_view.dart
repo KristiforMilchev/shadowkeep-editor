@@ -52,7 +52,6 @@ class ViewLine extends StatelessWidget {
     if (textLine?.type == 1) {
       return Container(
         padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-        margin: EdgeInsets.all(50),
         child: RichText(
           text: TextSpan(
             children: spans,
@@ -124,11 +123,14 @@ class _EditorView extends State<EditorView> {
   @override
   Widget build(BuildContext context) {
     DocumentProvider doc = Provider.of<DocumentProvider>(context);
-    return ListView.builder(
-        controller: scroller,
-        itemCount: doc.doc.lines.length,
-        itemBuilder: (BuildContext context, int index) {
-          return ViewLine(lineNumber: index, textLine: doc.doc.lines[index]);
-        });
+    return Container(
+      margin: EdgeInsets.all(50),
+      child: ListView.builder(
+          controller: scroller,
+          itemCount: doc.doc.lines.length,
+          itemBuilder: (BuildContext context, int index) {
+            return ViewLine(lineNumber: index, textLine: doc.doc.lines[index]);
+          }),
+    );
   }
 }
