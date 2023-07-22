@@ -78,20 +78,15 @@ class General {
     }
     Cursor cur = cursor.normalized();
 
-    if (lines[cursor.line].lineStyles != null) {
-      lines[cursor.line].lineStyles!.removeWhere((element) =>
-          element.column <= cur.column &&
-          element.anchor >= cur.column + numberOfCharacters);
-      var checkLenght = lines[cursor.line].text.length;
-
-      lines[cursor.line]
-          .lineStyles!
-          .removeWhere((element) => element.anchor >= checkLenght);
-    }
-
     String left = l.substring(0, cur.column);
     String right = l.substring(cur.column + numberOfCharacters);
     cursor = cur;
+
+    if (lines[cursor.line].lineStyles != null) {
+      lines[cursor.line].lineStyles!.removeWhere(
+            (element) => left.isEmpty ? true : element.anchor >= left.length,
+          );
+    }
 
     // handle erase entire line
     if (lines.length > 1 && (left + right).isEmpty) {
