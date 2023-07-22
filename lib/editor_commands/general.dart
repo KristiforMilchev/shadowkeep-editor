@@ -1,11 +1,15 @@
-import 'dart:math';
-
+import 'package:flutter/services.dart';
 import 'package:shadowkeep_editor/cursor.dart';
 import 'package:shadowkeep_editor/document.dart';
 import 'package:shadowkeep_editor/editor_commands/cursor_commands.dart';
 import 'package:shadowkeep_editor/text_line.dart';
 
 class General {
+  static bool isCapsLockOn() {
+    return HardwareKeyboard.instance.lockModesEnabled
+        .contains(KeyboardLockMode.capsLock);
+  }
+
   static ensureInitialized(List<TextLine> lines, Cursor cursor) {
     if (lines[cursor.line].lineStyles == null) {
       lines[cursor.line].lineStyles = [];

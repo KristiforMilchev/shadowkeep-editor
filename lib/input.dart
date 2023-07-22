@@ -214,12 +214,22 @@ class _InputListener extends State<InputListener> {
 
                       String ch = String.fromCharCode(
                           97 + k - LogicalKeyboardKey.keyA.keyId);
-                      if (event.isControlPressed) {
+                      if (event.isControlPressed && !event.isShiftPressed) {
                         d.command('ctrl+$ch');
                         break;
                       }
-                      d.insertText(ch);
-                    } catch (ex) {}
+
+                      if (General.isCapsLockOn()) {
+                        d.insertText(ch.toUpperCase());
+                        break;
+                      }
+
+                      d.insertText(
+                        event.isShiftPressed ? ch.toUpperCase() : ch,
+                      );
+                    } catch (ex) {
+                      print(ex);
+                    }
                     break;
                   }
               }
