@@ -30,7 +30,7 @@ class General {
         cursor,
         numberOfCharacters: cur.anchorColumn - cur.column,
       );
-      clearSelection(cursor);
+      clearSelection(cursor, lines);
       return;
     }
 
@@ -53,9 +53,12 @@ class General {
     General.validateCursor(lines, cursor, false);
   }
 
-  static void clearSelection(Cursor cursor) {
+  static void clearSelection(Cursor cursor, List<TextLine> lines) {
     cursor.anchorLine = cursor.line;
     cursor.anchorColumn = cursor.column;
+    for (var element in lines) {
+      element.isSelected = false;
+    }
   }
 
   static void deleteText(List<TextLine> lines, Cursor cursor,

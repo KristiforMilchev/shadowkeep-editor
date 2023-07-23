@@ -36,12 +36,22 @@ class CursorCommands {
   static void moveCursorUp(List<TextLine> lines, Cursor cursor,
       {int count = 1, bool keepAnchor = false}) {
     cursor.line = cursor.line - count;
+    lines.where((element) => element.isSelected).forEach((element) {
+      element.isSelected = false;
+    });
+
+    lines[cursor.line].isSelected = true;
     General.validateCursor(lines, cursor, keepAnchor);
   }
 
   static void moveCursorDown(List<TextLine> lines, Cursor cursor,
       {int count = 1, bool keepAnchor = false}) {
     cursor.line = cursor.line + count;
+    lines.where((element) => element.isSelected).forEach((element) {
+      element.isSelected = false;
+    });
+
+    lines[cursor.line].isSelected = true;
     General.validateCursor(lines, cursor, keepAnchor);
   }
 
