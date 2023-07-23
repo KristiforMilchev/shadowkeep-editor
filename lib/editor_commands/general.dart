@@ -138,13 +138,15 @@ class General {
   static List<String> selectAll(List<TextLine> lines, Cursor cursor) {
     List<String> res = <String>[];
 
+    CursorCommands.moveCursorToEndOfDocument(lines, cursor, keepAnchor: false);
+
+    CursorCommands.moveCursorToStartOfDocument(lines, cursor, keepAnchor: true);
     for (var i = 0; i < lines.length; i++) {
       res.add(lines[i].text);
       if (lines[i].type == 4) {
         lines[i].isSelected = true;
       }
     }
-    CursorCommands.moveCursorToStartOfDocument(lines, cursor, keepAnchor: true);
 
     validateCursor(lines, cursor, true);
     return res;
