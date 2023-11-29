@@ -5,16 +5,12 @@
 import FlutterMacOS
 import Foundation
 
-import device_info_plus
-import pasteboard
 import path_provider_foundation
-import rich_clipboard_macos
-import url_launcher_macos
+import rive_common
+import shared_preferences_foundation
 
 func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {
-  DeviceInfoPlusMacosPlugin.register(with: registry.registrar(forPlugin: "DeviceInfoPlusMacosPlugin"))
-  PasteboardPlugin.register(with: registry.registrar(forPlugin: "PasteboardPlugin"))
   PathProviderPlugin.register(with: registry.registrar(forPlugin: "PathProviderPlugin"))
-  RichClipboardPlugin.register(with: registry.registrar(forPlugin: "RichClipboardPlugin"))
-  UrlLauncherPlugin.register(with: registry.registrar(forPlugin: "UrlLauncherPlugin"))
+  RivePlugin.register(with: registry.registrar(forPlugin: "RivePlugin"))
+  SharedPreferencesPlugin.register(with: registry.registrar(forPlugin: "SharedPreferencesPlugin"))
 }
