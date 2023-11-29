@@ -9,8 +9,14 @@ import 'highlighter.dart';
 class Editor extends StatefulWidget {
   final List<IntellisenseData> intellisenseData;
   final String path;
+  final Color? fontColor;
 
-  const Editor({super.key, this.path = '', required this.intellisenseData});
+  const Editor({
+    super.key,
+    this.path = '',
+    required this.intellisenseData,
+    this.fontColor,
+  });
   @override
   _Editor createState() => _Editor();
 }
